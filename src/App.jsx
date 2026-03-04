@@ -4,6 +4,7 @@ import { useState } from 'react';
 import TicketCard from './components/TicketCard';
 import TaskStatus from './components/TaskStatus';
 import ticketsData from './data/tickets';
+import Banner from './components/Banner';
 
 function App() {
   const [tickets, setTickets] = useState(ticketsData);
@@ -28,6 +29,11 @@ function App() {
   return (
     <div className="app">
       <Navbar />
+
+      <Banner
+        inProgressCount={inProgressTasks.length}
+        resolvedCount={resolvedCount}
+      />
 
       <main className="main-section" id="tickets">
         <div className="main-header">
