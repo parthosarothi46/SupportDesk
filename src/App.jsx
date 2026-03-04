@@ -5,6 +5,8 @@ import TicketCard from './components/TicketCard';
 import TaskStatus from './components/TaskStatus';
 import ticketsData from './data/tickets';
 import Banner from './components/Banner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [tickets, setTickets] = useState(ticketsData);
@@ -13,8 +15,21 @@ function App() {
 
   const handleCardClick = (ticket) => {
     const alreadyAdded = inProgressTasks.find(t => t.id === ticket.id);
+    if (alreadyAdded) {
+      toast.warning(`⚠️ "${ticket.title}" is already in progress!`, {
+        position: 'top-right',
+        autoClose: 2500,
+        theme: 'colored',
+      });
+      return;
+    }
 
     setInProgressTasks(prev => [...prev, ticket]);
+    toast.info(`🔄 Ticket "${ticket.title}" added to In Progress`, {
+      position: 'top-right',
+      autoClose: 3000,
+      theme: 'colored',
+    });
   };
 
   const handleComplete = (task) => {
@@ -24,6 +39,12 @@ function App() {
     setTickets(prev => prev.filter(t => t.id !== task.id));
     // Increment resolved count
     setResolvedCount(prev => prev + 1);
+
+    toast.success(`✅ Ticket "${task.title}" has been resolved!`, {
+      position: 'top-right',
+      autoClose: 3000,
+      theme: 'colored',
+    });
   };
 
   return (
@@ -76,6 +97,16 @@ function App() {
       </main>
 
       <Footer />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
     </div>
   );
 }
