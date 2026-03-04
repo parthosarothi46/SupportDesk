@@ -7,6 +7,24 @@ import ticketsData from './data/tickets';
 
 function App() {
   const [tickets, setTickets] = useState(ticketsData);
+  const [inProgressTasks, setInProgressTasks] = useState([]);
+  const [resolvedCount, setResolvedCount] = useState(0);
+
+  const handleCardClick = (ticket) => {
+    const alreadyAdded = inProgressTasks.find(t => t.id === ticket.id);
+
+    setInProgressTasks(prev => [...prev, ticket]);
+  };
+
+  const handleComplete = (task) => {
+    // Remove from in-progress
+    setInProgressTasks(prev => prev.filter(t => t.id !== task.id));
+    // Remove from customer tickets
+    setTickets(prev => prev.filter(t => t.id !== task.id));
+    // Increment resolved count
+    setResolvedCount(prev => prev + 1);
+  };
+
   return (
     <div className="app">
       <Navbar />
@@ -34,6 +52,7 @@ function App() {
                   <TicketCard
                     key={ticket.id}
                     ticket={ticket}
+                    onCardClick={handleCardClick}
                   />
                 ))}
               </div>
@@ -41,6 +60,12 @@ function App() {
           </div>
 
           {/* Right: Task Status Panel */}
+          <div className="task-status-wrapper">
+            <TaskStatus
+              tasks={inProgressTasks}
+              onComplete={handleComplete}
+            />
+          </div>
         </div>
       </main>
 

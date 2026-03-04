@@ -1,4 +1,4 @@
-const TaskStatus = ({ tasks=0 }) => {
+const TaskStatus = ({ tasks, onComplete }) => {
   return (
     <div className="task-status-panel">
       <div className="task-status-header">
@@ -26,6 +26,7 @@ const TaskStatus = ({ tasks=0 }) => {
               </div>
               <button
                 className="btn-complete"
+                onClick={() => onComplete(task)}
               >
                 ✓ Complete
               </button>

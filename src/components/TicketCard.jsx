@@ -5,12 +5,13 @@ const priorityColors = {
   Low:      { bg: '#f0fdf4', border: '#22c55e', text: '#15803d', dot: '#22c55e' },
 };
 
-const TicketCard = ({ ticket }) => {
+const TicketCard = ({ ticket, onCardClick }) => {
   const colors = priorityColors[ticket.priority] || priorityColors['Low'];
 
   return (
     <div
       className="ticket-card"
+      onClick={() => onCardClick(ticket)}
       title="Click to add to In Progress"
     >
       <div className="ticket-card-header">
